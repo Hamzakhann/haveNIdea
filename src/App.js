@@ -1,12 +1,9 @@
 import React from 'react';
-
+import Routes from './Routes/Routes';
 function App() {
   return (
-    <div >
-  <h1>
-    Hello Have an Idea
-  </h1>
-     
+    <div className='container-fluid p-0' >
+        <Routes/>
     </div>
   );
 }
