@@ -1,21 +1,40 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { TextField, Button, Fab } from '@material-ui/core';
-import NavigationIcon from '@material-ui/icons/Navigation';
+import { TextField, Button, Fab , Icon ,Paper  } from '@material-ui/core';
 import logo from '../../Assets/logo.png';
-import './register.css';
+import '../auth.css';
 
 const useStyles = makeStyles(theme => ({
-    container: {
+    formContainer: {
         width: '100%',
-        padding: '35px'
+        padding: '15px'
     },
     textField: {
         width: '100%',
+        "& label.Mui-focused": {
+            color: "#F29898",
+          },
+          '& .MuiInput-underline:after': {
+            borderBottomColor: '#F29898',
+          },
+          '& .MuiOutlinedInput-root': {
+            '&:hover fieldset': {
+              borderColor: '#4C96D7',
+            },
+            '&.Mui-focused fieldset': {
+              borderColor: '#F29898',
+            },
+          },
     },
     button: {
         marginTop: theme.spacing(3),
-        width: '100%'
+        width: '100%',
+        border:'1px solid #F0999C',
+        color:'#F0999C',
+        '&:hover':{
+            border:'1px solid #4A97D2',
+            color:'#4A97D2',
+        }
     },
 }));
 const Register = (props) => {
@@ -23,9 +42,7 @@ const Register = (props) => {
     return (
         <div className='container-fluid p-0'>
             <div className='register-main-container' >
-
-
-                <div className='register-form-container' >
+                <Paper  className='register-form-container' >
                     <div className='logo-container' >
                         <img src={logo} className='img img-fluid' />
                         <div>
@@ -35,27 +52,26 @@ const Register = (props) => {
                             </small>
                         </div>
                     </div>
-                    <hr style={{ width: '90%' }} />
                     <div className='register-form' >
-                        <h4>Sign Up</h4>
-                        <form className={classes.container} autoComplete="off">
+                        <h4>Register Account</h4>
+                        <form className={classes.formContainer} autoComplete="off">
                             <div className='row' >
                                 <div className='col-sm col-md-6' >
                                     <TextField
-                                        id="outlined-name"
-                                        label="Name"
+                                    type='text'
+                                        label="First Name"
                                         className={classes.textField}
-                                        value='Name'
+                                        value=''
                                         margin="normal"
                                         variant="outlined"
                                     />
                                 </div>
                                 <div className='col-sm col-md-6' >
                                     <TextField
-                                        id="outlined-name"
-                                        label="Name"
+                                    type='text'
+                                        label="Last Name"
                                         className={classes.textField}
-                                        value='Name'
+                                        value=''
                                         margin="normal"
                                         variant="outlined"
                                     />
@@ -64,10 +80,10 @@ const Register = (props) => {
                             <div className='row' >
                                 <div className='col-sm col-md-12' >
                                     <TextField
-                                        id="outlined-name"
-                                        label="Name"
+                                    type='email'
+                                        label="Email"
                                         className={classes.textField}
-                                        value='Name'
+                                        value=''
                                         margin="normal"
                                         variant="outlined"
                                     />
@@ -76,20 +92,20 @@ const Register = (props) => {
                             <div className='row' >
                                 <div className='col-sm col-md-6' >
                                     <TextField
-                                        id="outlined-name"
-                                        label="Name"
+                                    type='password'
+                                        label="Password"
                                         className={classes.textField}
-                                        value='Name'
+                                        value=''
                                         margin="normal"
                                         variant="outlined"
                                     />
                                 </div>
                                 <div className='col-sm col-md-6' >
-                                    <TextField
-                                        id="outlined-name"
-                                        label="Name"
+                                    <TextField 
+                                        type='password'
+                                        label="Confirmed Password"
                                         className={classes.textField}
-                                        value='Name'
+                                        value=''
                                         margin="normal"
                                         variant="outlined"
                                     />
@@ -99,22 +115,36 @@ const Register = (props) => {
                                 <div className='col-sm col-md-12' >
                                     <Button variant="outlined" color="primary" className={classes.button}>
                                         Register
-                                </Button>
+                                     </Button>
                                 </div>
                             </div>
                         </form>
                     </div>
-                    <div className='social-register-container' >
-                        <Button variant="outlined" color="primary" className={classes.button}>
-                            <NavigationIcon className={classes.extendedIcon} />
-                            Login With Facebook
-        </Button>
-                        <Button variant="outlined" color="primary" className={classes.button}>
-                            <NavigationIcon className={classes.extendedIcon} />
-                            Login With Google
-        </Button>
+                    <div className='text-center' >
+                        <h5 className='or' >OR</h5>
                     </div>
-                </div>
+                    <div className='social-register-container pl-4 pr-4' >
+                        <div className='row' >
+                            <div className='col-sm col-md-6' >
+                                <Button variant="outlined" color="primary" className={classes.button}>
+                                <Icon style={{color:'#4267B2'}} className="fab fa-facebook-square mr-2" />
+                                    SignUp With Facebook
+                                </Button>
+                            </div>
+                            <div className='col-sm col-md-6' >
+                                <Button variant="outlined" color="primary" className={classes.button}>
+                                <Icon style={{color:'#ff5500'}} className="fab fa-google mr-2"/>
+                                    SignUp With Google
+                              </Button>
+                            </div>
+                        </div>
+                    </div>
+                    <div className='supported-text' >
+                        <p>Already Have an Account ? 
+                          <a href='#' >Login Here</a>  
+                         </p>
+                    </div>
+                </Paper >
             </div>
         </div>
     );

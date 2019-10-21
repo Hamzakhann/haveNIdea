@@ -1,0 +1,111 @@
+.register-main-container{
+    width: 100%;
+    height: auto;
+    padding: 2%;
+    background-image: linear-gradient(to right, #4d95d4, #f2989826),url('../Assets/register-bg.jpeg');
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.register-form-container{
+    padding-bottom: 20px;
+    width: 50%;
+    height: auto;
+    background-color: white;
+}
+
+.logo-container{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.logo-container h4{
+    font-family: 'Permanent Marker', cursive;
+    font-size: 24px;
+    color: #F29898;
+    font-weight: bold;
+}
+.logo-container small{
+    font-family: 'Roboto', sans-serif;
+    color: 	#4D96D7;
+    font-weight: bold;
+    padding-right: 15px;
+}
+.register-form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+.register-form h4{
+    font-family: 'Roboto', sans-serif;
+    color: #4D96D7;
+    font-weight: bolder;
+}
+.or{
+    font-family: 'Roboto', sans-serif;
+    color: #4D96D7;
+    font-weight: bolder;
+}
+
+.supported-text{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+.supported-text p{
+    color: 	#4D96D7;
+}
+@media only screen and (max-width: 1024px) {
+    .register-main-container{
+        width: 100%;
+        height: 100vh;
+    }
+    .register-form-container{
+        padding-bottom: 30px;
+        width: 85%;
+        height: auto;
+        background-color: white;
+    
+    }
+}
+@media only screen and (max-width: 700px) {
+    .register-main-container{
+        width: 100%;
+        height: auto;
+    }
+    .register-form-container{
+        padding-bottom: 20px;
+        width: 95%;
+        height: auto;
+        background-color: white;
+    
+    }
+    .register-form{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 5px;
+    }
+    .logo-container{
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+}
