@@ -43,6 +43,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 const Register = (props) => {
+    // HOOKS SECTION
     const [userData, setUserData] = useState({
         firstName: '',
         lastName: '',
@@ -57,6 +58,8 @@ const Register = (props) => {
         password: '',
         c_password: '',
     });
+    
+    console.log(props.auth)
     const onFormSubmit = () => {
       const userAfterValidate = registerValidator(userData)
       if(userAfterValidate.isValid){
@@ -65,6 +68,7 @@ const Register = (props) => {
         setregisterError({...registerError,...userAfterValidate.errors})
       }
     }
+
     const classes = useStyles()
     return (
         <div className='container-fluid p-0'>
@@ -192,5 +196,7 @@ const Register = (props) => {
         </div>
     );
 };
-
-export default connect(null, { registerUser })(withRouter(Register));
+const mapStateToProps = (state) =>({
+    auth : state.authReducer,
+  })
+export default connect(mapStateToProps, { registerUser })(withRouter(Register));
