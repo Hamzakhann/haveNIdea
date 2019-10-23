@@ -5,15 +5,15 @@ import {
 } from '../Constant/constant';
 
 const initialState = {
-  isAuthenticated : false,
-  user : {}
+    isAuthenticated: false,
+    user: {}
 }
 
-export default function(state = initialState , action){
-  switch(action.type){
-    case REGISTER_USER_LOADING:
-        return state
-    default:
-     return state;
-  }
+export default function (state = initialState, action) {
+    switch (action.type) {
+        case REGISTER_USER_LOADING:
+            return state
+        default:
+            return state;
+    }
 };

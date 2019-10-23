@@ -5,6 +5,7 @@ import { registerUser } from '../../Store/Actions/authActions';
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField, Button, Fab, Icon, Paper } from '@material-ui/core';
 import { Link, withRouter } from 'react-router-dom';
+import registerValidator from '../../Validation/registerValidation';
 import logo from '../../Assets/logo.png';
 import '../auth.css';
 
@@ -48,9 +49,21 @@ const Register = (props) => {
         email: '',
         password: '',
         c_password: '',
+    }); 
+    const [registerError, setregisterError] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        c_password: '',
     });
     const onFormSubmit = () => {
-        
+      const userAfterValidate = registerValidator(userData)
+      if(userAfterValidate.isValid){
+          console.log('everything is ok')
+      }else{
+        setregisterError({...registerError,...userAfterValidate.errors})
+      }
     }
     const classes = useStyles()
     return (
@@ -81,6 +94,7 @@ const Register = (props) => {
                                         value={userData.firstName}
                                         onChange={e => setUserData({ ...userData, [e.target.name]: e.target.value })}
                                     />
+                                    <small className='ml-2 text-danger' >{registerError.firstName ? registerError.firstName : ''}</small>
                                 </div>
                                 <div className='col-sm col-md-6' >
                                     <TextField
@@ -93,6 +107,7 @@ const Register = (props) => {
                                         value={userData.lastName}
                                         onChange={e => setUserData({ ...userData, [e.target.name]: e.target.value })}
                                     />
+                                  <small className='ml-2 text-danger' >{registerError.lastName ? registerError.lastName : ''}</small>
                                 </div>
                             </div>
                             <div className='row' >
@@ -107,6 +122,7 @@ const Register = (props) => {
                                         value={userData.email}
                                         onChange={e => setUserData({ ...userData, [e.target.name]: e.target.value })}
                                     />
+                                    <small className='ml-2 text-danger' >{registerError.email ? registerError.email : ''}</small>
                                 </div>
                             </div>
                             <div className='row' >
@@ -122,6 +138,7 @@ const Register = (props) => {
                                         value={userData.password}
                                         onChange={e => setUserData({ ...userData, [e.target.name]: e.target.value })}
                                     />
+                                    <small className='ml-2 text-danger' >{registerError.password ? registerError.password : ''}</small>
                                 </div>
                                 <div className='col-sm col-md-6' >
                                     <TextField
@@ -134,6 +151,7 @@ const Register = (props) => {
                                         value={userData.c_password}
                                         onChange={e => setUserData({ ...userData, [e.target.name]: e.target.value })}
                                     />
+                                    <small className='ml-2 text-danger' >{registerError.c_password ? registerError.c_password : ''}</small>
                                 </div>
                             </div>
                             <div className='row' >
