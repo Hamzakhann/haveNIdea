@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { TextField, Button, Fab , Icon ,Paper  } from '@material-ui/core';
+import { TextField, Button, Icon ,Paper  } from '@material-ui/core';
+import {Link} from 'react-router-dom';
 import logo from '../../Assets/logo.png';
 import '../auth.css';
 
@@ -115,7 +116,7 @@ const Login = (props) => {
                     </div>
                     <div className='supported-text' >
                         <p>Don't Have an Account ? 
-                          <a href='#' >Register Here</a>  
+                        <Link className='ml-2 text-decoration-none' to='/register' >Register Here</Link> 
                          </p>
                     </div>
                 </Paper >
