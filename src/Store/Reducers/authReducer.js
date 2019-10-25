@@ -1,7 +1,8 @@
 import {
     REGISTER_USER_LOADING,
     REGISTER_USER_SUCCESS,
-    REGISTER_USER_ERROR
+    REGISTER_USER_ERROR,
+    REMOVE_REGISTER_USER_ERROR
 } from '../Constant/constant';
 
 const initialState = {
@@ -16,7 +17,9 @@ export default function (state = initialState, action) {
         case REGISTER_USER_SUCCESS:
             return {...state , isLoading:false}
         case REGISTER_USER_ERROR:
-            return {...state , isLoading:false, error:action.payload}
+            return {...state , error:action.payload}
+        case REMOVE_REGISTER_USER_ERROR:
+            return {...state , isLoading:false, error:''}
         default:
             return state;
     }

@@ -1,9 +1,9 @@
-import React, { useState , useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
-import { registerUser } from '../../Store/Actions/authActions';
+import { registerUser , removeRegisterError } from '../../Store/Actions/authActions';
 import { makeStyles } from '@material-ui/core/styles';
-import { TextField, Button, Snackbar, Icon, Paper, Slide } from '@material-ui/core';
+import { TextField, Button, Icon, Paper } from '@material-ui/core';
 import { Link, withRouter } from 'react-router-dom';
 import registerValidator from '../../Validation/registerValidation';
 import logo from '../../Assets/logo.png';
@@ -44,7 +44,6 @@ const useStyles = makeStyles(theme => ({
 }));
 const Register = (props) => {
     // HOOKS SECTION
-    const [snackOpen, setSnackOpen] = useState(false);
     const [userData, setUserData] = useState({
         firstName: '',
         lastName: '',
@@ -71,14 +70,12 @@ const Register = (props) => {
     }
 
     const classes = useStyles()
-
-    useEffect(() => {
-        if(props.auth.error){
-            setSnackOpen(true)
-        }
-      });
     return (
         <div className='container-fluid p-0'>
+            {props.auth.error ? 
+            <div style={{ position: 'fixed', top:'10px', left:'10px' }} class="alert alert-danger" role="alert">
+               {props.auth.error} <Button onClick={() => props.removeRegisterError()} className='text-danger font-weight-bold' ><i class="fas fa-times"></i></Button> 
+            </div>: ""}
             <div className='register-main-container' >
                 <Paper className='register-form-container' >
                     <div className='logo-container' >
@@ -175,7 +172,7 @@ const Register = (props) => {
                         </form>
                     </div>
                     <div className='text-center' >
-                        <h5 className='or' >OR</h5>
+                        <span className='or' >OR</span>
                     </div>
                     <div className='social-register-container pl-4 pr-4' >
                         <div className='row' >
@@ -200,15 +197,10 @@ const Register = (props) => {
                     </div>
                 </Paper >
             </div>
-            <Snackbar
-                open={snackOpen}
-                onClose={() => setSnackOpen(false)}
-                message={<span>{props.auth.error ? props.auth.error : ''}</span>}
-            />
         </div>
     );
 };
 const mapStateToProps = (state) => ({
     auth: state.authReducer,
 })
-export default connect(mapStateToProps, { registerUser })(withRouter(Register));
+export default connect(mapStateToProps, { registerUser , removeRegisterError })(withRouter(Register));

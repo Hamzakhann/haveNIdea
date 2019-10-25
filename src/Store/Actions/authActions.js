@@ -1,7 +1,8 @@
 import {
     REGISTER_USER_LOADING,
     REGISTER_USER_SUCCESS,
-    REGISTER_USER_ERROR
+    REGISTER_USER_ERROR,
+    REMOVE_REGISTER_USER_ERROR
 } from '../Constant/constant';
 import {auth , db} from '../../Config/firebaseConfig';
 
@@ -20,7 +21,10 @@ export const registerUser = (userData , history) => dispatch =>{
     })
 };
 
+export const removeRegisterError = () => dispatch =>{
 
+    dispatch({type:REMOVE_REGISTER_USER_ERROR})
+}
 
 // //Login user GET user token
 
