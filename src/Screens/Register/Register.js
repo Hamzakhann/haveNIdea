@@ -64,7 +64,6 @@ const Register = (props) => {
         const userAfterValidate = registerValidator(userData)
         if (userAfterValidate.isValid) {
             props.registerUser(userData, props.history)
-            setUserData({ firstName: '', lastName: '', email: '', password: '', c_password: '' })
             setregisterError({ firstName: '', lastName: '', email: '', password: '', c_password: '' })
         } else {
             setregisterError({ ...registerError, ...userAfterValidate.errors })
@@ -72,6 +71,7 @@ const Register = (props) => {
     }
 
     const classes = useStyles()
+
     useEffect(() => {
         if(props.auth.error){
             setSnackOpen(true)
