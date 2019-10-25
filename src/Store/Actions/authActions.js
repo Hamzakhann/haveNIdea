@@ -8,14 +8,15 @@ import {auth , db} from '../../Config/firebaseConfig';
 
 //Register user 
 export const registerUser = (userData , history) => dispatch =>{
+    // console.log( 'Action ka conosle' , userData , 'history ',history)
     dispatch({type:REGISTER_USER_LOADING})
     auth.createUserWithEmailAndPassword(userData.email,userData.password)
     .then((currentUser)=>{
-       return currentUser.auth.sendEmailVerification();
-    }).then((currentUser)=>{
-        console.log(currentUser)
+        currentUser.user.sendEmailVerification();
+        dispatch({type:REGISTER_USER_SUCCESS})
+        history.push(`/email-verification`)
     }).catch((err) =>{
-        console.log(err)
+        dispatch({type:REGISTER_USER_ERROR , payload:err.message})
     })
 };
 

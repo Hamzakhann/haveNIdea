@@ -5,14 +5,18 @@ import {
 } from '../Constant/constant';
 
 const initialState = {
-    isAuthenticated: false,
-    user: {}
+    isLoading:false,
+    error:''
 }
 
 export default function (state = initialState, action) {
     switch (action.type) {
         case REGISTER_USER_LOADING:
-            return state
+            return {...state , isLoading:true}
+        case REGISTER_USER_SUCCESS:
+            return {...state , isLoading:false}
+        case REGISTER_USER_ERROR:
+            return {...state , isLoading:false, error:action.payload}
         default:
             return state;
     }

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 import { registerUser } from '../../Store/Actions/authActions';
 import { makeStyles } from '@material-ui/core/styles';
-import { TextField, Button, Fab, Icon, Paper } from '@material-ui/core';
+import { TextField, Button, Snackbar, Icon, Paper, Slide } from '@material-ui/core';
 import { Link, withRouter } from 'react-router-dom';
 import registerValidator from '../../Validation/registerValidation';
 import logo from '../../Assets/logo.png';
@@ -44,13 +44,14 @@ const useStyles = makeStyles(theme => ({
 }));
 const Register = (props) => {
     // HOOKS SECTION
+    const [snackOpen, setSnackOpen] = useState(false);
     const [userData, setUserData] = useState({
         firstName: '',
         lastName: '',
         email: '',
         password: '',
         c_password: '',
-    }); 
+    });
     const [registerError, setregisterError] = useState({
         firstName: '',
         lastName: '',
@@ -58,18 +59,24 @@ const Register = (props) => {
         password: '',
         c_password: '',
     });
-    
-    console.log(props.auth)
+
     const onFormSubmit = () => {
-      const userAfterValidate = registerValidator(userData)
-      if(userAfterValidate.isValid){
-          console.log('everything is ok')
-      }else{
-        setregisterError({...registerError,...userAfterValidate.errors})
-      }
+        const userAfterValidate = registerValidator(userData)
+        if (userAfterValidate.isValid) {
+            props.registerUser(userData, props.history)
+            setUserData({ firstName: '', lastName: '', email: '', password: '', c_password: '' })
+            setregisterError({ firstName: '', lastName: '', email: '', password: '', c_password: '' })
+        } else {
+            setregisterError({ ...registerError, ...userAfterValidate.errors })
+        }
     }
 
     const classes = useStyles()
+    useEffect(() => {
+        if(props.auth.error){
+            setSnackOpen(true)
+        }
+      });
     return (
         <div className='container-fluid p-0'>
             <div className='register-main-container' >
@@ -111,7 +118,7 @@ const Register = (props) => {
                                         value={userData.lastName}
                                         onChange={e => setUserData({ ...userData, [e.target.name]: e.target.value })}
                                     />
-                                  <small className='ml-2 text-danger' >{registerError.lastName ? registerError.lastName : ''}</small>
+                                    <small className='ml-2 text-danger' >{registerError.lastName ? registerError.lastName : ''}</small>
                                 </div>
                             </div>
                             <div className='row' >
@@ -160,7 +167,7 @@ const Register = (props) => {
                             </div>
                             <div className='row' >
                                 <div className='col-sm col-md-12' >
-                                    <Button onClick={() => onFormSubmit()} variant="outlined" color="primary" className={classes.button}>
+                                    <Button onClick={() => onFormSubmit()} variant="outlined" disabled={props.auth.isLoading} color="primary" className={classes.button}>
                                         Register
                                      </Button>
                                 </div>
@@ -193,10 +200,15 @@ const Register = (props) => {
                     </div>
                 </Paper >
             </div>
+            <Snackbar
+                open={snackOpen}
+                onClose={() => setSnackOpen(false)}
+                message={<span>{props.auth.error ? props.auth.error : ''}</span>}
+            />
         </div>
     );
 };
-const mapStateToProps = (state) =>({
-    auth : state.authReducer,
-  })
+const mapStateToProps = (state) => ({
+    auth: state.authReducer,
+})
 export default connect(mapStateToProps, { registerUser })(withRouter(Register));
