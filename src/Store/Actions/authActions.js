@@ -4,26 +4,30 @@ import {
     REGISTER_USER_ERROR,
     REMOVE_REGISTER_USER_ERROR
 } from '../Constant/constant';
-import {auth , db} from '../../Config/firebaseConfig';
+import { auth, db } from '../../Config/firebaseConfig';
 
 
 //Register user 
-export const registerUser = (userData , history) => dispatch =>{
-    // console.log( 'Action ka conosle' , userData , 'history ',history)
-    dispatch({type:REGISTER_USER_LOADING})
-    auth.createUserWithEmailAndPassword(userData.email,userData.password)
-    .then((currentUser)=>{
-        currentUser.user.sendEmailVerification();
-        dispatch({type:REGISTER_USER_SUCCESS})
-        history.push(`/email-verification`)
-    }).catch((err) =>{
-        dispatch({type:REGISTER_USER_ERROR , payload:err.message})
-    })
+export const registerUser = (userData, history) => dispatch => {
+    dispatch({ type: REGISTER_USER_LOADING })
+    auth.createUserWithEmailAndPassword(userData.email, userData.password)
+        .then((currentUser) => {
+            currentUser.user.sendEmailVerification();
+            currentUser.user.updateProfile({
+                displayName: `${userData.firstName} ${userData.lastName}`
+            }).then(() => {
+                dispatch({ type: REGISTER_USER_SUCCESS })
+                history.push(`/email-verification`)
+            })
+        })
+        .catch((err) => {
+            dispatch({ type: REGISTER_USER_ERROR, payload: err.message })
+        })
 };
 
-export const removeRegisterError = () => dispatch =>{
+export const removeRegisterError = () => dispatch => {
 
-    dispatch({type:REMOVE_REGISTER_USER_ERROR})
+    dispatch({ type: REMOVE_REGISTER_USER_ERROR })
 }
 
 // //Login user GET user token
