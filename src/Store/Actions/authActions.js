@@ -4,7 +4,7 @@ import {
     REGISTER_USER_ERROR,
     REMOVE_REGISTER_USER_ERROR
 } from '../Constant/constant';
-import { auth, db } from '../../Config/firebaseConfig';
+import { auth, db , googleAuthProvider , fbAuthProvider} from '../../Config/firebaseConfig';
 
 
 //Register user 
@@ -29,6 +29,40 @@ export const removeRegisterError = () => dispatch => {
 
     dispatch({ type: REMOVE_REGISTER_USER_ERROR })
 }
+
+export const googleSignUp  = (history) => dispatch => {
+    dispatch({ type: REGISTER_USER_LOADING })
+    auth.signInWithPopup(googleAuthProvider)
+    .then((currentUser) => {
+        if(!currentUser.additionalUserInfo.isNewUser){
+            dispatch({ type: REGISTER_USER_ERROR, payload: 'User Already Exist' })
+        }else{
+            dispatch({ type: REGISTER_USER_SUCCESS })
+            history.push(`/login`)  
+        }
+    })
+    .catch((err) => {
+        dispatch({ type: REGISTER_USER_ERROR, payload: err.message })
+    })
+}
+
+export const fbSignUp  = (history) => dispatch => {
+    dispatch({ type: REGISTER_USER_LOADING })
+    auth.signInWithPopup(fbAuthProvider)
+    .then((currentUser) => {
+        if(!currentUser.additionalUserInfo.isNewUser){
+            dispatch({ type: REGISTER_USER_ERROR, payload: 'User Already Exist' })
+        }else{
+            dispatch({ type: REGISTER_USER_SUCCESS })
+            history.push(`/login`)  
+        }
+    })
+    .catch((err) => {
+        dispatch({ type: REGISTER_USER_ERROR, payload: err.message })
+    })
+}
+// 5fNwJ31afDczrXxdscwacvgF4lK2
+// 5fNwJ31afDczrXxdscwacvgF4lK2
 
 // //Login user GET user token
 

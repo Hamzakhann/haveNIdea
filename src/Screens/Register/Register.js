@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
-import { registerUser , removeRegisterError } from '../../Store/Actions/authActions';
+import { registerUser , removeRegisterError , googleSignUp ,fbSignUp} from '../../Store/Actions/authActions';
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField, Button, Icon, Paper } from '@material-ui/core';
 import { Link, withRouter } from 'react-router-dom';
@@ -177,13 +177,13 @@ const Register = (props) => {
                     <div className='social-register-container pl-4 pr-4' >
                         <div className='row' >
                             <div className='col-sm col-md-6' >
-                                <Button variant="outlined" color="primary" className={classes.button}>
-                                    <Icon style={{ color: '#4267B2' }} className="fab fa-facebook-square mr-2" />
+                                <Button onClick={() => props.fbSignUp(props.history)} disabled={props.auth.isLoading} variant="outlined" color="primary" className={classes.button}>
+                                    <Icon  style={{ color: '#4267B2' }} className="fab fa-facebook-square mr-2" />
                                     SignUp With Facebook
                                 </Button>
                             </div>
                             <div className='col-sm col-md-6' >
-                                <Button variant="outlined" color="primary" className={classes.button}>
+                                <Button onClick={() => props.googleSignUp(props.history)} disabled={props.auth.isLoading} variant="outlined" color="primary" className={classes.button}>
                                     <Icon style={{ color: '#ff5500' }} className="fab fa-google mr-2" />
                                     SignUp With Google
                               </Button>
@@ -203,4 +203,4 @@ const Register = (props) => {
 const mapStateToProps = (state) => ({
     auth: state.authReducer,
 })
-export default connect(mapStateToProps, { registerUser , removeRegisterError })(withRouter(Register));
+export default connect(mapStateToProps, { registerUser , removeRegisterError , googleSignUp,fbSignUp})(withRouter(Register));
