@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { TextField, Button, Icon, Paper } from '@material-ui/core';
 import { Link, withRouter } from 'react-router-dom';
 import registerValidator from '../../Validation/registerValidation';
+import {auth} from '../../Config/firebaseConfig';
 import logo from '../../Assets/logo.png';
 import '../auth.css';
 
@@ -70,6 +71,7 @@ const Register = (props) => {
     }
 
     const classes = useStyles()
+    console.log('register me user ', auth.currentUser)
     return (
         <div className='container-fluid p-0'>
             {props.auth.error ? 

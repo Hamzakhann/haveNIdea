@@ -2,7 +2,11 @@ import {
     REGISTER_USER_LOADING,
     REGISTER_USER_SUCCESS,
     REGISTER_USER_ERROR,
-    REMOVE_REGISTER_USER_ERROR
+    REMOVE_REGISTER_USER_ERROR,
+    LOGIN_USER_LOADING,
+    LOGIN_USER_ERROR,
+    REMOVE_LOGIN_USER_ERROR,
+    LOGIN_USER_SUCCESS
 } from '../Constant/constant';
 import { auth, db , googleAuthProvider , fbAuthProvider} from '../../Config/firebaseConfig';
 
@@ -61,47 +65,23 @@ export const fbSignUp  = (history) => dispatch => {
         dispatch({ type: REGISTER_USER_ERROR, payload: err.message })
     })
 }
-// 5fNwJ31afDczrXxdscwacvgF4lK2
-// 5fNwJ31afDczrXxdscwacvgF4lK2
-
-// //Login user GET user token
-
-// export const loginUser = (userData) => dispatch =>{
-//   axios.post('/api/users/login' , userData)
-//   .then(res => {
-//     //save to local storage
-//     const {token} = res.data
-//     //set token to ls
-//     localStorage.setItem('jwtToken' , token);
-//     //set token to auth header
-//     setAuthToken(token)
-//     //decode token to get user data
-//     const decoded = jwt_decode(token);
-//     //set current user
-//     dispatch(setCurrentUser(decoded))
-//   }).catch(err => {
-//     dispatch({
-//       type : GET_ERRORS,
-//       payload : err.response.data
-//     })
-//   });
-// };
-
-// //set logged in user
-// export const setCurrentUser = (decoded) =>{
-//   return {
-//     type : SET_CURRENT_USER,
-//     payload : decoded
-//   }
-// }
 
 
-// //log user out 
-// export const logoutUser = () => dispatch =>{
-//   //remove token from local storage
-//   localStorage.removeItem('jwtToken');
-//   //remove auth header for future request
-//   setAuthToken(false)
-//   //set current user to this {} which will set isAuthenticated to flase
-//   dispatch(setCurrentUser({}))
-// }
+// LOGIN USER FLOW
+export const loginUser = (userData , history) => dispatch =>{
+    dispatch({ type: LOGIN_USER_LOADING })
+    auth.signInWithEmailAndPassword(userData.email,userData.password)
+    .then((loginUser) =>{
+        if(loginUser.user){
+            history.push('/profile')
+        }
+    })
+    .catch((err) => {
+        dispatch({ type: LOGIN_USER_ERROR, payload: err.message })
+    })
+}
+
+export const removeLoginError = () => dispatch => {
+
+    dispatch({ type: REMOVE_LOGIN_USER_ERROR })
+}
