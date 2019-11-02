@@ -60,6 +60,9 @@ const Register = (props) => {
         c_password: '',
     });
 
+    useEffect(() =>{
+        console.log('register check' ,props.auth.user)
+    })
     const onFormSubmit = () => {
         const userAfterValidate = registerValidator(userData)
         if (userAfterValidate.isValid) {
@@ -71,11 +74,7 @@ const Register = (props) => {
     }
 
     const classes = useStyles()
-    auth.onAuthStateChanged((user) =>{
-        if(user){
-            window.location.href = '/login'
-        }
-    })
+    if(props.auth.user) return <Redirect to='/profile' />
     return (
         <div className='container-fluid p-0'>
             {props.auth.error ? 

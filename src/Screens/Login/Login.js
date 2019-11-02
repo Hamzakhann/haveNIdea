@@ -52,7 +52,9 @@ const Login = (props) => {
         email: '',
         password: ''
     });
-
+    useEffect(() =>{
+        console.log('login check' ,props.auth.user)
+    })
     const onFormSubmit = () => {
         const userAfterValidate = loginValidation(userData)
         if (userAfterValidate.isValid) {
@@ -63,7 +65,7 @@ const Login = (props) => {
         }
     }
     const classes = useStyles()
-    if(localStorage.getItem('user')) return <Redirect to='/profile' />
+    if(props.auth.user) return <Redirect to='/profile' />
     return (
         <div className='container-fluid p-0'>
              {props.auth.error ? 

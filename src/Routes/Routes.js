@@ -5,6 +5,7 @@ import Register from '../Screens/Register/Register';
 import Login from '../Screens/Login/Login';
 import Profile from '../Screens/Profile/Profile';
 import EmailVerification from '../Screens/EmailVerification/EmailVerification';
+import PrivateRoute from './PrivateRoute';
 const Routes = (props)=> {
   return (
     <Router>
@@ -12,7 +13,9 @@ const Routes = (props)=> {
         <Route exact path = '/register' component = {Register} />
         <Route exact path = '/login' component = {Login} />
         <Route exact path = '/email-verification' component = {EmailVerification} />
-        <Route exact path = '/profile' component = {Profile} />
+        <Switch>
+            <Route exact path = '/profile' component = {Profile} />
+        </Switch>
         </div>
     </Router>
   );
