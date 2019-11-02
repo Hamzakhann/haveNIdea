@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { TextField, Button, Icon, Paper } from '@material-ui/core';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { loginUser ,removeLoginError } from '../../Store/Actions/authActions';
+import { loginUser ,removeLoginError,googleLogin,fbLogin } from '../../Store/Actions/authActions';
 import logo from '../../Assets/logo.png';
 import loginValidation from '../../Validation/loginValidation';
 import {auth} from '../../Config/firebaseConfig';
@@ -136,13 +136,13 @@ const Login = (props) => {
                     <div className='social-register-container pl-4 pr-4' >
                         <div className='row' >
                             <div className='col-sm col-md-6' >
-                                <Button variant="outlined" color="primary" disabled={props.auth.isLoading} className={classes.button}>
+                                <Button onClick={() => props.fbLogin(props.history)} variant="outlined" color="primary" disabled={props.auth.isLoading} className={classes.button}>
                                     <Icon style={{ color: '#4267B2' }} className="fab fa-facebook-square mr-2" />
                                     Login With Facebook
                                 </Button>
                             </div>
                             <div className='col-sm col-md-6' >
-                                <Button variant="outlined" color="primary" disabled={props.auth.isLoading} className={classes.button}>
+                                <Button onClick={() => props.googleLogin(props.history)} variant="outlined" color="primary" disabled={props.auth.isLoading} className={classes.button}>
                                     <Icon style={{ color: '#ff5500' }} className="fab fa-google mr-2" />
                                     Login With Google
                               </Button>
@@ -162,4 +162,4 @@ const Login = (props) => {
 const mapStateToProps = (state) => ({
     auth: state.authReducer,
 })
-export default connect(mapStateToProps, { loginUser , removeLoginError })(withRouter(Login));
+export default connect(mapStateToProps, { loginUser , removeLoginError, googleLogin,fbLogin})(withRouter(Login));

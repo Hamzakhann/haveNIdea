@@ -26,6 +26,8 @@ export default function (state = initialState, action) {
             return { ...state, isLoading: false, error: '' }
         case LOGIN_USER_LOADING:
             return { ...state, isLoading: true }
+        case LOGIN_USER_SUCCESS:
+            return { ...state, isLoading: false }
         case LOGIN_USER_ERROR:
             return { ...state, error: action.payload }
         case REMOVE_LOGIN_USER_ERROR:

@@ -73,6 +73,7 @@ export const loginUser = (userData , history) => dispatch =>{
     auth.signInWithEmailAndPassword(userData.email,userData.password)
     .then((loginUser) =>{
         if(loginUser.user){
+            dispatch({ type: LOGIN_USER_SUCCESS })
             history.push('/profile')
         }
     })
@@ -84,4 +85,43 @@ export const loginUser = (userData , history) => dispatch =>{
 export const removeLoginError = () => dispatch => {
 
     dispatch({ type: REMOVE_LOGIN_USER_ERROR })
+}
+
+
+export const googleLogin = (history) => dispatch =>{
+    dispatch({ type: LOGIN_USER_LOADING })
+    auth.signInWithPopup(googleAuthProvider)
+    .then((loginUser) =>{
+        if(!loginUser.additionalUserInfo.isNewUser){
+            dispatch({ type: LOGIN_USER_SUCCESS })
+            history.push(`/profile`)
+        }else{
+            console.log('check google dev',loginUser)
+                loginUser.user.delete().then(()=>{
+                dispatch({ type: LOGIN_USER_ERROR, payload: 'User Not Found' })
+            })
+        }
+    })
+    .catch((err) => {
+        dispatch({ type: LOGIN_USER_ERROR, payload: err.message })
+    })
+}
+
+export const fbLogin = (history) => dispatch =>{
+    dispatch({ type: LOGIN_USER_LOADING })
+    auth.signInWithPopup(fbAuthProvider)
+    .then((loginUser) =>{
+        if(!loginUser.additionalUserInfo.isNewUser){
+            dispatch({ type: LOGIN_USER_SUCCESS })
+            history.push(`/profile`)
+        }else{
+            console.log('check google dev',loginUser)
+                loginUser.user.delete().then(()=>{
+                dispatch({ type: LOGIN_USER_ERROR, payload: 'User Not Found' })
+            })
+        }
+    })
+    .catch((err) => {
+        dispatch({ type: LOGIN_USER_ERROR, payload: err.message })
+    })
 }
