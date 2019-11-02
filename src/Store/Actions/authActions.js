@@ -72,9 +72,13 @@ export const loginUser = (userData , history) => dispatch =>{
     dispatch({ type: LOGIN_USER_LOADING })
     auth.signInWithEmailAndPassword(userData.email,userData.password)
     .then((loginUser) =>{
-        if(loginUser.user){
+        if(loginUser.user.emailVerified){
+            window.localStorage.setItem('user' , JSON.stringify(loginUser.user))
             dispatch({ type: LOGIN_USER_SUCCESS })
             history.push('/profile')
+        }else{
+            auth.signOut();
+            dispatch({ type: LOGIN_USER_ERROR, payload: 'Verify your email first' })    
         }
     })
     .catch((err) => {
@@ -93,6 +97,7 @@ export const googleLogin = (history) => dispatch =>{
     auth.signInWithPopup(googleAuthProvider)
     .then((loginUser) =>{
         if(!loginUser.additionalUserInfo.isNewUser){
+            window.localStorage.setItem('user' , JSON.stringify(loginUser.user))
             dispatch({ type: LOGIN_USER_SUCCESS })
             history.push(`/profile`)
         }else{
@@ -112,6 +117,7 @@ export const fbLogin = (history) => dispatch =>{
     auth.signInWithPopup(fbAuthProvider)
     .then((loginUser) =>{
         if(!loginUser.additionalUserInfo.isNewUser){
+            window.localStorage.setItem('user' , JSON.stringify(loginUser.user))
             dispatch({ type: LOGIN_USER_SUCCESS })
             history.push(`/profile`)
         }else{

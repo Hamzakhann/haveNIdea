@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { registerUser , removeRegisterError , googleSignUp ,fbSignUp} from '../../Store/Actions/authActions';
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField, Button, Icon, Paper } from '@material-ui/core';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, withRouter, Redirect } from 'react-router-dom';
 import registerValidator from '../../Validation/registerValidation';
 import {auth} from '../../Config/firebaseConfig';
 import logo from '../../Assets/logo.png';
@@ -71,7 +71,11 @@ const Register = (props) => {
     }
 
     const classes = useStyles()
-    console.log('register me user ', auth.currentUser)
+    auth.onAuthStateChanged((user) =>{
+        if(user){
+            window.location.href = '/login'
+        }
+    })
     return (
         <div className='container-fluid p-0'>
             {props.auth.error ? 

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField, Button, Icon, Paper } from '@material-ui/core';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter, Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { loginUser ,removeLoginError,googleLogin,fbLogin } from '../../Store/Actions/authActions';
 import logo from '../../Assets/logo.png';
@@ -53,7 +53,6 @@ const Login = (props) => {
         password: ''
     });
 
-
     const onFormSubmit = () => {
         const userAfterValidate = loginValidation(userData)
         if (userAfterValidate.isValid) {
@@ -64,7 +63,7 @@ const Login = (props) => {
         }
     }
     const classes = useStyles()
-    console.log('login me user ', auth.currentUser)
+    if(localStorage.getItem('user')) return <Redirect to='/profile' />
     return (
         <div className='container-fluid p-0'>
              {props.auth.error ? 
