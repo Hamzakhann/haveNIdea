@@ -1,31 +1,22 @@
-import React , {useState} from 'react';
+import React from 'react';
 import {Route , Redirect} from 'react-router-dom';
-import {auth} from '../Config/firebaseConfig';
+import {connect} from 'react-redux';
 
-const PrivateRoute =  ({component : Component , ...rest}) => {
-        // HOOKS SECTION
-        const [isAuthenticated, setAuth] = useState(false);
+const PrivateRoute =  ({component : Component , auth , ...rest}) => (
+  <Route 
+  {...rest}
+  render = {props =>
+  auth.user !== null ?(
+    <Component  {...props} />
+  ) :(
+    <Redirect to = "/login" />
+  )
+  }
+  />
+)
 
-        auth.onAuthStateChanged((user) =>{
-            if(user !== null){
-                setAuth(true)
-            }
-        })
-    return(
-        <Route 
-        {...rest}
-        render = {props =>
-        isAuthenticated === true ?(
-          <Component  {...props} />
-        ) :(
-          <Redirect to = "/login" />
-        )
-        }
-        />
-    )
-}
+const mapStateToProps  = (state) =>({
+  auth : state.authReducer
+})
 
-
-
-
-export default PrivateRoute;
+export default connect(mapStateToProps)(PrivateRoute);
