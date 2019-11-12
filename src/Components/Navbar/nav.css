@@ -1,7 +1,30 @@
-.nav-container{
+ul {
+    list-style-type: none;
+  }
+.bg-light {
+    background-color: #ffffff !important;
+}
+
+.nav-sm{
+    background: #4a97d873;
     width: 100%;
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
+    border-bottom-right-radius: 4%;
+    border-bottom-left-radius: 100%;
 }
+
+button:focus {
+    outline: none !important;  
+}
+
+.profile-sm-container{
+    height: 130px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #4D96D7;
+}
+
