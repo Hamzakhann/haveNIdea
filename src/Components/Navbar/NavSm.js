@@ -34,7 +34,7 @@ const useStyles = makeStyles({
 });
 
 const NavSm = (props) => {
-    const [isOpen, setDrawer] = useState(true)
+    const [isOpen, setDrawer] = useState(false)
     const classes = useStyles();
     const toggleDrawer = (open) => event => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {

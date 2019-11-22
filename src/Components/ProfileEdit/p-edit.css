@@ -1,0 +1,10 @@
+.MuiGrid-container{
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+    box-sizing: border-box !important;
+}
+.DropzoneArea-dropZone-148 {
+    margin-bottom: 15px !important;
+}

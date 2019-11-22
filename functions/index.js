@@ -17,7 +17,8 @@ exports.addUserInFirestore = functions.auth.user().onCreate((user) => {
             firstName: userRecord.displayName.split(' ')[0],
             lastName: userRecord.displayName.split(' ')[1],
             email:userRecord.email,
-            createdAt:userRecord.metadata.creationTime
+            createdAt:userRecord.metadata.creationTime,
+            iscompleted:false
         })
         .then((userAdded) => userAdded )
         .catch((err) => err)

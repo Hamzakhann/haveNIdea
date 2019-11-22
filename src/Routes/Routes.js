@@ -12,13 +12,16 @@ const Routes = (props)=> {
       // HOOKS SECTION
       const [nav, setNav] = useState(false);
       useEffect(()=>{
+        console.log('route ka effect')
         if(localStorage.getItem('user') !==null){
         setNav(true)
         }
       })
   return (
     <Router>
-      <Navbar style={{display:nav ? 'block':'none'}}/>
+      <div style={{display:nav ? 'block':'none'}}>
+      <Navbar />
+      </div>
         <div>
         <Route exact path = '/register' component = {Register} />
         <Route exact path = '/login' component = {Login} />
