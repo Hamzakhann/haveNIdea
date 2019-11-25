@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
+import {connect} from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import { TextField, Button,Select, MenuItem, InputLabel, FormControl } from '@material-ui/core';
+import { TextField, Button, Select, MenuItem, InputLabel, FormControl } from '@material-ui/core';
 import { DropzoneArea } from 'material-ui-dropzone';
+import ChipInput from 'material-ui-chip-input'
 import './p-edit.css'
 
 const useStyles = makeStyles(theme => ({
@@ -60,7 +62,47 @@ const useStyles = makeStyles(theme => ({
         paddingRight: '5px'
     }
 }));
-function ProfileEdit(props) {
+
+const ProfileEdit = (props) => {
+    const [profileData, setProfileData] = useState({
+        firstName: 'Hamza',
+        lastName: 'Khan',
+        email: 'hamzakhann66@gmail.com',
+        city: '',
+        country: '',
+        role: '',
+        experience: '',
+        gender: '',
+        twitter: '',
+        linkedin: '',
+        skills:[],
+        about: '',
+        profileImage: '',
+        coverImage: ''
+    })
+    const [profileError, setProfileError] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        city: '',
+        country: '',
+        role: '',
+        experience: '',
+        gender: '',
+        twitter: '',
+        linkedin: '',
+        about: '',
+        profileImage: '',
+        coverImage: ''
+    })
+    const updateProfile = ()=>{
+        console.log(profileData)
+    }
+    useEffect(()=>{
+        let {user} = props.auth
+        let fullName = user.displayName.split(' ')
+        setProfileData({...profileData, firstName:fullName[0], lastName:fullName[1], email:user.email})
+    },[profileData.email])
     const classes = useStyles()
     return (
         <div className='container'>
@@ -79,8 +121,8 @@ function ProfileEdit(props) {
                             className={classes.textField}
                             margin="normal"
                             variant="outlined"
-                        // value={userData.firstName}
-                        // onChange={e => setUserData({ ...userData, [e.target.name]: e.target.value })}
+                            value={profileData.firstName}
+                            disabled
                         />
                     </div>
                     <div className='col-sm col-md-6' >
@@ -91,8 +133,8 @@ function ProfileEdit(props) {
                             className={classes.textField}
                             margin="normal"
                             variant="outlined"
-                        // value={userData.firstName}
-                        // onChange={e => setUserData({ ...userData, [e.target.name]: e.target.value })}
+                            value={profileData.lastName}
+                            disabled
                         />
                     </div>
                 </div>
@@ -105,8 +147,8 @@ function ProfileEdit(props) {
                             className={classes.textField}
                             margin="normal"
                             variant="outlined"
-                        // value={userData.firstName}
-                        // onChange={e => setUserData({ ...userData, [e.target.name]: e.target.value })}
+                            value={profileData.email}
+                            disabled
                         />
                     </div>
                     <div className='col-sm col-md-6' >
@@ -117,8 +159,8 @@ function ProfileEdit(props) {
                             className={classes.textField}
                             margin="normal"
                             variant="outlined"
-                        // value={userData.firstName}
-                        // onChange={e => setUserData({ ...userData, [e.target.name]: e.target.value })}
+                            value={profileData.city}
+                            onChange={e => setProfileData({ ...profileData, [e.target.name]: e.target.value })}
                         />
                     </div>
                 </div>
@@ -130,12 +172,17 @@ function ProfileEdit(props) {
                              </InputLabel>
                             <Select
                                 id="country"
-                            //   value={age}
-                            //   onChange={handleChange}
+                                name='country'
+                                value={profileData.country}
+                                onChange={e => setProfileData({ ...profileData, [e.target.name]: e.target.value })}
                             >
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
+                                <MenuItem value='pakistan'>Pakistan</MenuItem>
+                                <MenuItem value='india'>India</MenuItem>
+                                <MenuItem value='austrilia'>Austrilia</MenuItem>
+                                <MenuItem value='united_state'>United State</MenuItem>
+                                <MenuItem value='united_kingdom'>United Kingdom</MenuItem>
+                                <MenuItem value='china'>China</MenuItem>
+                                <MenuItem value='japan'>Japan</MenuItem>
                             </Select>
                         </FormControl>
                     </div>
@@ -146,12 +193,12 @@ function ProfileEdit(props) {
                              </InputLabel>
                             <Select
                                 id="role"
-                            //   value={age}
-                            //   onChange={handleChange}
+                                name='role'
+                                value={profileData.role}
+                                onChange={e => setProfileData({ ...profileData, [e.target.name]: e.target.value })}
                             >
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
+                                <MenuItem value='softwareEngineer'>Software Engineer</MenuItem>
+                                <MenuItem value='investor'>Invester</MenuItem>
                             </Select>
                         </FormControl>
                     </div>
@@ -164,12 +211,15 @@ function ProfileEdit(props) {
                              </InputLabel>
                             <Select
                                 id="exp"
-                            //   value={age}
-                            //   onChange={handleChange}
+                                name='experience'
+                                value={profileData.experience}
+                                onChange={e => setProfileData({ ...profileData, [e.target.name]: e.target.value })}
                             >
+                                <MenuItem value={2}>Two</MenuItem>
+                                <MenuItem value={4}>Four</MenuItem>
+                                <MenuItem value={6}>Six</MenuItem>
+                                <MenuItem value={8}>Eight</MenuItem>
                                 <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
                             </Select>
                         </FormControl>
                     </div>
@@ -180,12 +230,12 @@ function ProfileEdit(props) {
                              </InputLabel>
                             <Select
                                 id="gender"
-                            //   value={age}
-                            //   onChange={handleChange}
+                                name='gender'
+                                value={profileData.gender}
+                                onChange={e => setProfileData({ ...profileData, [e.target.name]: e.target.value })}
                             >
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
+                                <MenuItem value='male'>Male</MenuItem>
+                                <MenuItem value='female'>Female</MenuItem>
                             </Select>
                         </FormControl>
                     </div>
@@ -199,8 +249,8 @@ function ProfileEdit(props) {
                             className={classes.textField}
                             margin="normal"
                             variant="outlined"
-                        // value={userData.firstName}
-                        // onChange={e => setUserData({ ...userData, [e.target.name]: e.target.value })}
+                            value={profileData.twitter}
+                            onChange={e => setProfileData({ ...profileData, [e.target.name]: e.target.value })}
                         />
                     </div>
                     <div className='col-sm col-md-6' >
@@ -211,9 +261,23 @@ function ProfileEdit(props) {
                             className={classes.textField}
                             margin="normal"
                             variant="outlined"
-                        // value={userData.firstName}
-                        // onChange={e => setUserData({ ...userData, [e.target.name]: e.target.value })}
+                            value={profileData.linkedin}
+                            onChange={e => setProfileData({ ...profileData, [e.target.name]: e.target.value })}
                         />
+                    </div>
+                </div>
+                <div className='row' >
+                    <div className='col-sm-12' >
+                        {profileData.role === 'softwareEngineer' ?(
+                        <ChipInput
+                        variant='outlined'
+                        className={classes.textField}
+                        label="Skills"
+                        margin="normal"
+                        value={profileData.skills}
+                        onChange={(skill)=>setProfileData({...profileData,skills:skill})}
+                    />
+                        ):''}
                     </div>
                 </div>
                 <div className='row' >
@@ -225,6 +289,9 @@ function ProfileEdit(props) {
                             className={classes.textField}
                             margin="normal"
                             variant="outlined"
+                            name='about'
+                            value={profileData.about}
+                            onChange={e => setProfileData({ ...profileData, [e.target.name]: e.target.value })}
                         />
                     </div>
                 </div>
@@ -234,6 +301,7 @@ function ProfileEdit(props) {
                             dropzoneText={'Upload Profile Picture'}
                             acceptedFiles={['image/*']}
                             filesLimit={1}
+                            onChange={(files) => setProfileData({...profileData,coverImage:files[0]})}
                         />
                     </div>
                     <div className='col-sm col-md-6' >
@@ -241,13 +309,14 @@ function ProfileEdit(props) {
                             dropzoneText={'Upload Cover Image'}
                             acceptedFiles={['image/*']}
                             filesLimit={1}
+                            onChange={(files) => setProfileData({...profileData,profileImage:files[0]})}
                         />
                     </div>
                 </div>
                 <div className='row' >
                     <div className='col-sm col-md-12' >
-                        <Button  variant="outlined"  color="primary" className={classes.button}>
-                        Update Profile
+                        <Button onClick={()=> updateProfile()} variant="outlined" color="primary" className={classes.button}>
+                            Update Profile
                         </Button>
                     </div>
                 </div>
@@ -255,5 +324,8 @@ function ProfileEdit(props) {
         </div>
     );
 }
+const mapStateToProps = (state) => ({
+    auth: state.authReducer
+})
 
-export default ProfileEdit;
+export default connect(mapStateToProps)(ProfileEdit);
