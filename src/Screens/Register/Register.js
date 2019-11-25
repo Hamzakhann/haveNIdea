@@ -59,9 +59,6 @@ const Register = (props) => {
         c_password: '',
     });
 
-    useEffect(() =>{
-        console.log('register check' ,props.auth.user)
-    })
     const onFormSubmit = () => {
         const userAfterValidate = registerValidator(userData)
         if (userAfterValidate.isValid) {

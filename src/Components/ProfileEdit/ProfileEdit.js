@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { TextField, Button, Select, MenuItem, InputLabel, FormControl } from '@material-ui/core';
 import { DropzoneArea } from 'material-ui-dropzone';
 import ChipInput from 'material-ui-chip-input'
+import profileValidator from '../../Validation/profileValidation';
 import './p-edit.css'
 
 const useStyles = makeStyles(theme => ({
@@ -65,9 +66,9 @@ const useStyles = makeStyles(theme => ({
 
 const ProfileEdit = (props) => {
     const [profileData, setProfileData] = useState({
-        firstName: 'Hamza',
-        lastName: 'Khan',
-        email: 'hamzakhann66@gmail.com',
+        firstName: '',
+        lastName: '',
+        email: '',
         city: '',
         country: '',
         role: '',
@@ -95,14 +96,21 @@ const ProfileEdit = (props) => {
         profileImage: '',
         coverImage: ''
     })
-    const updateProfile = ()=>{
-        console.log(profileData)
+    const updateProfile = () => {
+        const profileAfterValidate = profileValidator(profileData)
+        if (profileAfterValidate.isValid) {
+            // props.registerUser(userData, props.history)
+            setProfileError(Object.keys(profileError).forEach(v => profileError[v] = ''))
+        } else {
+            setProfileError({ ...profileError, ...profileAfterValidate.errors })
+        }
     }
     useEffect(()=>{
         let {user} = props.auth
         let fullName = user.displayName.split(' ')
         setProfileData({...profileData, firstName:fullName[0], lastName:fullName[1], email:user.email})
     },[profileData.email])
+
     const classes = useStyles()
     return (
         <div className='container'>
@@ -162,6 +170,7 @@ const ProfileEdit = (props) => {
                             value={profileData.city}
                             onChange={e => setProfileData({ ...profileData, [e.target.name]: e.target.value })}
                         />
+                          <small className='ml-2 text-danger' >{profileError.city ? profileError.city : ''}</small>
                     </div>
                 </div>
                 <div className='row' >
@@ -185,6 +194,7 @@ const ProfileEdit = (props) => {
                                 <MenuItem value='japan'>Japan</MenuItem>
                             </Select>
                         </FormControl>
+                        <small className='ml-2 text-danger' >{profileError.country ? profileError.country : ''}</small>
                     </div>
                     <div className='col-sm col-md-6' >
                         <FormControl variant="outlined" className={classes.selectField}>
@@ -201,6 +211,8 @@ const ProfileEdit = (props) => {
                                 <MenuItem value='investor'>Invester</MenuItem>
                             </Select>
                         </FormControl>
+                        <small className='ml-2 text-danger' >{profileError.role ? profileError.role : ''}</small>
+
                     </div>
                 </div>
                 <div className='row' >
@@ -222,6 +234,7 @@ const ProfileEdit = (props) => {
                                 <MenuItem value={10}>Ten</MenuItem>
                             </Select>
                         </FormControl>
+                        <small className='ml-2 text-danger' >{profileError.experience ? profileError.experience : ''}</small>
                     </div>
                     <div className='col-sm col-md-6' >
                         <FormControl variant="outlined" className={classes.selectField}>
@@ -238,6 +251,7 @@ const ProfileEdit = (props) => {
                                 <MenuItem value='female'>Female</MenuItem>
                             </Select>
                         </FormControl>
+                        <small className='ml-2 text-danger' >{profileError.gender ? profileError.gender : ''}</small>
                     </div>
                 </div>
                 <div className='row' >
@@ -252,6 +266,7 @@ const ProfileEdit = (props) => {
                             value={profileData.twitter}
                             onChange={e => setProfileData({ ...profileData, [e.target.name]: e.target.value })}
                         />
+                    <small className='ml-2 text-danger' >{profileError.twitter ? profileError.twitter : ''}</small>
                     </div>
                     <div className='col-sm col-md-6' >
                         <TextField
@@ -264,6 +279,7 @@ const ProfileEdit = (props) => {
                             value={profileData.linkedin}
                             onChange={e => setProfileData({ ...profileData, [e.target.name]: e.target.value })}
                         />
+                        <small className='ml-2 text-danger' >{profileError.linkedin ? profileError.linkedin : ''}</small>
                     </div>
                 </div>
                 <div className='row' >
@@ -278,6 +294,7 @@ const ProfileEdit = (props) => {
                         onChange={(skill)=>setProfileData({...profileData,skills:skill})}
                     />
                         ):''}
+                        <small className='ml-2 text-danger' >{profileError.skills ? profileError.skills : ''}</small>
                     </div>
                 </div>
                 <div className='row' >
@@ -293,6 +310,7 @@ const ProfileEdit = (props) => {
                             value={profileData.about}
                             onChange={e => setProfileData({ ...profileData, [e.target.name]: e.target.value })}
                         />
+                         <small className='ml-2 text-danger' >{profileError.about ? profileError.about : ''}</small>
                     </div>
                 </div>
                 <div className='row mt-3' >
@@ -303,6 +321,7 @@ const ProfileEdit = (props) => {
                             filesLimit={1}
                             onChange={(files) => setProfileData({...profileData,coverImage:files[0]})}
                         />
+                        <small className='ml-2 text-danger' >{profileError.profileImage ? profileError.profileImage : ''}</small>
                     </div>
                     <div className='col-sm col-md-6' >
                         <DropzoneArea
@@ -311,6 +330,7 @@ const ProfileEdit = (props) => {
                             filesLimit={1}
                             onChange={(files) => setProfileData({...profileData,profileImage:files[0]})}
                         />
+                <small className='ml-2 text-danger' >{profileError.coverImage ? profileError.coverImage : ''}</small>
                     </div>
                 </div>
                 <div className='row' >
