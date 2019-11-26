@@ -4,6 +4,10 @@ admin.initializeApp(functions.config().firebase)
 const db = admin.firestore()
 
 exports.helloWorld = functions.https.onRequest((request, response) => {
+    console.log(request)
+    console.log('=======================')
+    console.log(request.body)
+    console.log(request.files)
     response.send("Hello Have An Idea");
 });
 
@@ -23,7 +27,6 @@ exports.addUserInFirestore = functions.auth.user().onCreate((user) => {
         .then((userAdded) => userAdded )
         .catch((err) => err)
     })
-
 
 });
 
