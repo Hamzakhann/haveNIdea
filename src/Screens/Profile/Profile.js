@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Spinner from '../../Components/Spinner/Spinner';
 import ProfileComplete from '../../Components/ProfileComplete/ProfileComplete';
-import ProfileEdit from '../../Components/ProfileEdit/ProfileEdit';
 class Profile extends Component{
     constructor(props){
         super(props)
@@ -23,7 +22,7 @@ class Profile extends Component{
         if (profileData.isLoading) {
             profileContemt  =  <Spinner />
         } else if (!profileData.profile.iscompleted && !profileData.isLoading) {
-            profileContemt = <ProfileEdit/>
+            this.props.history.push('/profile/edit')
         }else{
             profileContemt = <ProfileComplete />
         }    

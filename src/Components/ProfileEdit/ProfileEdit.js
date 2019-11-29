@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import {connect} from 'react-redux';
+import {withRouter} from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField, Button, Select, MenuItem, InputLabel, FormControl } from '@material-ui/core';
 import { DropzoneArea } from 'material-ui-dropzone';
@@ -102,13 +103,17 @@ const ProfileEdit = (props) => {
     const updateProfile = () => {
         const profileAfterValidate = profileValidator(profileData)
         if (profileAfterValidate.isValid) {
-            props.setProfile(profileData)
+            props.setProfile(profileData, props.history)
             // setProfileError(Object.keys(profileError).forEach(v => profileError[v] = ''))
         } else {
             setProfileError({ ...profileError, ...profileAfterValidate.errors })
         }
     }
     useEffect(()=>{
+        console.log('edit ka console' , props.profileData)
+        if(props.profileData.profileUpdated){
+            props.history.push('/profile')
+        }
         let {user} = props.auth
         let fullName = user.displayName.split(' ')
         setProfileData({...profileData,user:user.uid, firstName:fullName[0], lastName:fullName[1], email:user.email})
@@ -350,7 +355,8 @@ const ProfileEdit = (props) => {
     );
 }
 const mapStateToProps = (state) => ({
-    auth: state.authReducer
+    auth: state.authReducer,
+    profileData: state.profileReducer
 })
 
-export default connect(mapStateToProps,{setProfile})(ProfileEdit);
+export default connect(mapStateToProps,{setProfile})(withRouter(ProfileEdit));

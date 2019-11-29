@@ -12,6 +12,7 @@ const initialState = {
     isLoading: false,
     error: '',
     profile: {},
+    profileUpdated:false
 }
 
 export default function (state = initialState, action) {
@@ -31,7 +32,7 @@ export default function (state = initialState, action) {
         case UPDATE_PROFILE_LOADING:
             return { ...state, isLoading: true }
         case UPDATE_PROFILE_COMPLETED:
-            return { ...state, isLoading: false }
+            return { ...state, isLoading: false , profileUpdated:true}
         case UPDATE_PROFILE_ERROR:
             return { ...state, isLoading: false, error: action.payload }
         default:

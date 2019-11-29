@@ -10,7 +10,7 @@ import {
 import {db,storage} from '../../Config/firebaseConfig';
 
 
-export const setProfile = (data) => async dispatch => {
+export const setProfile = (data, history) => async dispatch => {
     dispatch({ type: UPDATE_PROFILE_LOADING})
     let userProfile = storage.child('userProfile');
     try{
@@ -24,6 +24,7 @@ export const setProfile = (data) => async dispatch => {
         let userRef = db.collection('users').doc(profileData.user)
         let profileAfterUpdate = await userRef.update(profileData)
         dispatch({type:UPDATE_PROFILE_COMPLETED})
+        history.push(`/profile`)
     }catch(e){
         dispatch({type:UPDATE_PROFILE_ERROR, payload:e})
     }
