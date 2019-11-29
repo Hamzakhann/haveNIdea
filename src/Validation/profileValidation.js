@@ -50,17 +50,17 @@ export default function (data) {
         errors.linkedin = 'linkedin is required';
     }
     if(data.role === 'softwareEngineer'){
-        if (validator.isEmpty(data.skills)) {
+        if (data.skills.length === 0) {
             errors.skills = 'skills is required';
         }
     }
     if (validator.isEmpty(data.about)) {
         errors.about = 'about is required';
     }
-    if (validator.isEmpty(data.profileImage)) {
+    if (!data.profileImage) {
         errors.profileImage = 'Profile Image is required';
     }
-    if (validator.isEmpty(data.coverImage)) {
+    if (!data.coverImage) {
         errors.coverImage = 'Cover Image is required';
     }
     return {

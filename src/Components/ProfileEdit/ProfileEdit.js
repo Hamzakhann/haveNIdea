@@ -5,6 +5,7 @@ import { TextField, Button, Select, MenuItem, InputLabel, FormControl } from '@m
 import { DropzoneArea } from 'material-ui-dropzone';
 import ChipInput from 'material-ui-chip-input'
 import profileValidator from '../../Validation/profileValidation';
+import {setProfile} from '../../Store/Actions/profileActions';
 import './p-edit.css'
 
 const useStyles = makeStyles(theme => ({
@@ -66,6 +67,7 @@ const useStyles = makeStyles(theme => ({
 
 const ProfileEdit = (props) => {
     const [profileData, setProfileData] = useState({
+        user:'',
         firstName: '',
         lastName: '',
         email: '',
@@ -94,13 +96,14 @@ const ProfileEdit = (props) => {
         linkedin: '',
         about: '',
         profileImage: '',
-        coverImage: ''
+        coverImage: '',
+        skills:''
     })
     const updateProfile = () => {
         const profileAfterValidate = profileValidator(profileData)
         if (profileAfterValidate.isValid) {
-            // props.registerUser(userData, props.history)
-            setProfileError(Object.keys(profileError).forEach(v => profileError[v] = ''))
+            props.setProfile(profileData)
+            // setProfileError(Object.keys(profileError).forEach(v => profileError[v] = ''))
         } else {
             setProfileError({ ...profileError, ...profileAfterValidate.errors })
         }
@@ -108,7 +111,7 @@ const ProfileEdit = (props) => {
     useEffect(()=>{
         let {user} = props.auth
         let fullName = user.displayName.split(' ')
-        setProfileData({...profileData, firstName:fullName[0], lastName:fullName[1], email:user.email})
+        setProfileData({...profileData,user:user.uid, firstName:fullName[0], lastName:fullName[1], email:user.email})
     },[profileData.email])
 
     const classes = useStyles()
@@ -227,11 +230,11 @@ const ProfileEdit = (props) => {
                                 value={profileData.experience}
                                 onChange={e => setProfileData({ ...profileData, [e.target.name]: e.target.value })}
                             >
-                                <MenuItem value={2}>Two</MenuItem>
-                                <MenuItem value={4}>Four</MenuItem>
-                                <MenuItem value={6}>Six</MenuItem>
-                                <MenuItem value={8}>Eight</MenuItem>
-                                <MenuItem value={10}>Ten</MenuItem>
+                                <MenuItem value={'2'}>Two</MenuItem>
+                                <MenuItem value={'4'}>Four</MenuItem>
+                                <MenuItem value={'6'}>Six</MenuItem>
+                                <MenuItem value={'8'}>Eight</MenuItem>
+                                <MenuItem value={'10'}>Ten</MenuItem>
                             </Select>
                         </FormControl>
                         <small className='ml-2 text-danger' >{profileError.experience ? profileError.experience : ''}</small>
@@ -319,7 +322,8 @@ const ProfileEdit = (props) => {
                             dropzoneText={'Upload Profile Picture'}
                             acceptedFiles={['image/*']}
                             filesLimit={1}
-                            onChange={(files) => setProfileData({...profileData,coverImage:files[0]})}
+                            value={profileData.profileImage}
+                            onChange={(file) => setProfileData({...profileData,profileImage:file})}
                         />
                         <small className='ml-2 text-danger' >{profileError.profileImage ? profileError.profileImage : ''}</small>
                     </div>
@@ -328,7 +332,8 @@ const ProfileEdit = (props) => {
                             dropzoneText={'Upload Cover Image'}
                             acceptedFiles={['image/*']}
                             filesLimit={1}
-                            onChange={(files) => setProfileData({...profileData,profileImage:files[0]})}
+                            value={profileData.coverImage}
+                            onChange={(file) => setProfileData({...profileData,coverImage:file})}
                         />
                 <small className='ml-2 text-danger' >{profileError.coverImage ? profileError.coverImage : ''}</small>
                     </div>
@@ -348,4 +353,4 @@ const mapStateToProps = (state) => ({
     auth: state.authReducer
 })
 
-export default connect(mapStateToProps)(ProfileEdit);
+export default connect(mapStateToProps,{setProfile})(ProfileEdit);

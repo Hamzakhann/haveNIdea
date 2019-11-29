@@ -1,23 +1,43 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { logoutUser } from '../../Store/Actions/authActions';
+import {getProfile} from '../../Store/Actions/profileActions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Spinner from '../../Components/Spinner/Spinner';
 import ProfileComplete from '../../Components/ProfileComplete/ProfileComplete';
-const Profile = (props) => {
-
-    if (props.profile.isLoading) {
-        return <Spinner />
-    } else if (!props.profile.iscompleted && !props.profile.isLoading) {
-        props.history.push('/profile/edit')
+import ProfileEdit from '../../Components/ProfileEdit/ProfileEdit';
+class Profile extends Component{
+    constructor(props){
+        super(props)
     }
-    return (
-        <ProfileComplete />
-    )
+
+    componentDidMount(){
+        console.log('profile ka console')
+        let {user} = this.props.auth
+        this.props.getProfile(user.uid)
+    }
+    render(){
+        const {profileData} = this.props
+        console.log(profileData.profile.iscompleted)
+        let profileContemt;
+        if (profileData.isLoading) {
+            profileContemt  =  <Spinner />
+        } else if (!profileData.profile.iscompleted && !profileData.isLoading) {
+            profileContemt = <ProfileEdit/>
+        }else{
+            profileContemt = <ProfileComplete />
+        }    
+        return(
+            <>
+            {profileContemt}
+            </>
+        )
+    }    
 }
 
 const mapStateToProps = (state) => ({
-    profile: state.profileReducer
+    auth: state.authReducer,
+    profileData: state.profileReducer
 })
 
-export default connect(mapStateToProps, { logoutUser })(withRouter(Profile));
+export default connect(mapStateToProps, { logoutUser ,getProfile})(withRouter(Profile));

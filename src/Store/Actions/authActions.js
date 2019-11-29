@@ -108,7 +108,7 @@ export const googleLogin = (history) => dispatch =>{
         if(!loginUser.additionalUserInfo.isNewUser){
             window.localStorage.setItem('user' , JSON.stringify(loginUser.user))
             dispatch(setCurrentUser(loginUser.user))
-            history.push(`/profile`)
+            history.push('/profile')
         }else{
             console.log('check google dev',loginUser)
                 loginUser.user.delete().then(()=>{

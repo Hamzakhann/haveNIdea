@@ -12,7 +12,7 @@ const Routes = (props)=> {
       // HOOKS SECTION
       const [nav, setNav] = useState(false);
       useEffect(()=>{
-        console.log('route ka effect')
+
         if(localStorage.getItem('user') !==null){
         setNav(true)
         }
