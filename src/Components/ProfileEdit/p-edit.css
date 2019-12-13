@@ -8,3 +8,10 @@
 .DropzoneArea-dropZone-148 {
     margin-bottom: 15px !important;
 }
+
+.error-edit{
+    font-weight: bold !important;
+    color: #ffffff !important;
+    background-color: #982731 !important;
+    border-color: #3c070d !important;
+}

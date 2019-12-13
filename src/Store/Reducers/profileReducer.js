@@ -12,7 +12,9 @@ const initialState = {
     isLoading: false,
     error: '',
     profile: {},
-    profileUpdated:false
+    profileUpdated:false,
+    profileLoading:false,
+    profileError:""
 }
 
 export default function (state = initialState, action) {
@@ -25,16 +27,15 @@ export default function (state = initialState, action) {
             ...state,
             isLoading: false,
             profile: {...action.payload},
-            isCompleted:true
         }
         case GET_PROFILE_ERROR:
             return { ...state, isLoading: false, error: action.payload }
         case UPDATE_PROFILE_LOADING:
-            return { ...state, isLoading: true }
+            return { ...state, profileLoading: true }
         case UPDATE_PROFILE_COMPLETED:
-            return { ...state, isLoading: false , profileUpdated:true}
+            return { ...state, profileLoading: false , profileUpdated:true}
         case UPDATE_PROFILE_ERROR:
-            return { ...state, isLoading: false, error: action.payload }
+            return { ...state, profileLoading: false, profileError: action.payload }
         default:
             return state;
     }

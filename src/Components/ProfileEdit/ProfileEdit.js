@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField, Button, Select, MenuItem, InputLabel, FormControl } from '@material-ui/core';
+import Skeleton from '@material-ui/lab/Skeleton';
 import { DropzoneArea } from 'material-ui-dropzone';
 import ChipInput from 'material-ui-chip-input'
 import profileValidator from '../../Validation/profileValidation';
-import {setProfile} from '../../Store/Actions/profileActions';
+import { setProfile } from '../../Store/Actions/profileActions';
 import './p-edit.css'
 
 const useStyles = makeStyles(theme => ({
@@ -68,7 +69,7 @@ const useStyles = makeStyles(theme => ({
 
 const ProfileEdit = (props) => {
     const [profileData, setProfileData] = useState({
-        user:'',
+        user: '',
         firstName: '',
         lastName: '',
         email: '',
@@ -79,7 +80,7 @@ const ProfileEdit = (props) => {
         gender: '',
         twitter: '',
         linkedin: '',
-        skills:[],
+        skills: [],
         about: '',
         profileImage: '',
         coverImage: ''
@@ -98,7 +99,7 @@ const ProfileEdit = (props) => {
         about: '',
         profileImage: '',
         coverImage: '',
-        skills:''
+        skills: ''
     })
     const updateProfile = () => {
         const profileAfterValidate = profileValidator(profileData)
@@ -109,254 +110,306 @@ const ProfileEdit = (props) => {
             setProfileError({ ...profileError, ...profileAfterValidate.errors })
         }
     }
-    useEffect(()=>{
-        console.log('edit ka console' , props.profileData)
-        if(props.profileData.profileUpdated){
+    useEffect(() => {
+        if (props.profileData.profileUpdated) {
             props.history.push('/profile')
         }
-        let {user} = props.auth
+        let { user } = props.auth
         let fullName = user.displayName.split(' ')
-        setProfileData({...profileData,user:user.uid, firstName:fullName[0], lastName:fullName[1], email:user.email})
-    },[profileData.email])
+        setProfileData({ ...profileData, user: user.uid, firstName: fullName[0], lastName: fullName[1], email: user.email })
+    }, [profileData.email])
 
     const classes = useStyles()
-    return (
-        <div className='container'>
-            <div className='d-flex align-items-center justify-content-center'>
-                <div className='alert-danger p-2 rounded'>
-                    <h6>Complete Your Profile to access all features of HaveNIdea</h6>
+    console.log('jsut chekc', props.profileData.profileLoading)
+    if (props.profileData.profileLoading) {
+        return (
+            <div>
+                <br />
+                <br />
+                <div style={{ maxWidth: "90%", margin: "0 auto" }} >
+                    <Skeleton variant="rect" />
+                    <Skeleton variant="rect" />
+                    <Skeleton variant="rect" />
+                    <Skeleton variant="rect" />
+                    <Skeleton variant="rect" />
                 </div>
+                <br />
+                <div style={{ maxWidth: "90%", margin: "0 auto" }} >
+                    <Skeleton variant="rect" />
+                    <Skeleton variant="rect" />
+                    <Skeleton variant="rect" />
+                    <Skeleton variant="rect" />
+                    <Skeleton variant="rect" />
+                </div>
+                <br />
+                <div style={{ maxWidth: "90%", margin: "0 auto" }} >
+                    <Skeleton variant="rect" />
+                    <Skeleton variant="rect" />
+                    <Skeleton variant="rect" />
+                    <Skeleton variant="rect" />
+                    <Skeleton variant="rect" />
+                </div>
+                <br />
+                <div style={{ maxWidth: "90%", margin: "0 auto" }} >
+                    <Skeleton variant="rect" />
+                    <Skeleton variant="rect" />
+                    <Skeleton variant="rect" />
+                    <Skeleton variant="rect" />
+                    <Skeleton variant="rect" />
+                </div>
+                <br />
+                <div style={{ maxWidth: "90%", margin: "0 auto" }} >
+                    <Skeleton variant="rect" />
+                    <Skeleton variant="rect" />
+                    <Skeleton variant="rect" />
+                    <Skeleton variant="rect" />
+                    <Skeleton variant="rect" />
+                </div>
+                <br />
             </div>
-            <div className='profile-edit-container p-4' >
-                <div className='row' >
-                    <div className='col-sm col-md-6' >
-                        <TextField
-                            name='firstName'
-                            type='text'
-                            label="First Name"
-                            className={classes.textField}
-                            margin="normal"
-                            variant="outlined"
-                            value={profileData.firstName}
-                            disabled
-                        />
+        )
+    } else {
+        return (
+            <div className='container'>
+                <div class="alert alert-danger error-edit" role="alert">
+                    A simple danger alert—check it out!
                     </div>
-                    <div className='col-sm col-md-6' >
-                        <TextField
-                            name='lastName'
-                            type='text'
-                            label="Last Name"
-                            className={classes.textField}
-                            margin="normal"
-                            variant="outlined"
-                            value={profileData.lastName}
-                            disabled
-                        />
+                <div className='d-flex align-items-center justify-content-center'>
+                    <div className='alert-danger p-2 rounded'>
+                        <h6>Complete Your Profile to access all features of HaveNIdea</h6>
                     </div>
                 </div>
-                <div className='row' >
-                    <div className='col-sm col-md-6' >
-                        <TextField
-                            name='email'
-                            type='text'
-                            label="Email"
-                            className={classes.textField}
-                            margin="normal"
-                            variant="outlined"
-                            value={profileData.email}
-                            disabled
-                        />
+                <div className='profile-edit-container p-4' >
+                    <div className='row' >
+                        <div className='col-sm col-md-6' >
+                            <TextField
+                                name='firstName'
+                                type='text'
+                                label="First Name"
+                                className={classes.textField}
+                                margin="normal"
+                                variant="outlined"
+                                value={profileData.firstName}
+                                disabled
+                            />
+                        </div>
+                        <div className='col-sm col-md-6' >
+                            <TextField
+                                name='lastName'
+                                type='text'
+                                label="Last Name"
+                                className={classes.textField}
+                                margin="normal"
+                                variant="outlined"
+                                value={profileData.lastName}
+                                disabled
+                            />
+                        </div>
                     </div>
-                    <div className='col-sm col-md-6' >
-                        <TextField
-                            name='city'
-                            type='text'
-                            label="City"
-                            className={classes.textField}
-                            margin="normal"
-                            variant="outlined"
-                            value={profileData.city}
-                            onChange={e => setProfileData({ ...profileData, [e.target.name]: e.target.value })}
-                        />
-                          <small className='ml-2 text-danger' >{profileError.city ? profileError.city : ''}</small>
-                    </div>
-                </div>
-                <div className='row' >
-                    <div className='col-sm col-md-6' >
-                        <FormControl variant="outlined" className={classes.selectField}>
-                            <InputLabel className={classes.selectLabel} id="country">
-                                Country
-                             </InputLabel>
-                            <Select
-                                id="country"
-                                name='country'
-                                value={profileData.country}
+                    <div className='row' >
+                        <div className='col-sm col-md-6' >
+                            <TextField
+                                name='email'
+                                type='text'
+                                label="Email"
+                                className={classes.textField}
+                                margin="normal"
+                                variant="outlined"
+                                value={profileData.email}
+                                disabled
+                            />
+                        </div>
+                        <div className='col-sm col-md-6' >
+                            <TextField
+                                name='city'
+                                type='text'
+                                label="City"
+                                className={classes.textField}
+                                margin="normal"
+                                variant="outlined"
+                                value={profileData.city}
                                 onChange={e => setProfileData({ ...profileData, [e.target.name]: e.target.value })}
-                            >
-                                <MenuItem value='pakistan'>Pakistan</MenuItem>
-                                <MenuItem value='india'>India</MenuItem>
-                                <MenuItem value='austrilia'>Austrilia</MenuItem>
-                                <MenuItem value='united_state'>United State</MenuItem>
-                                <MenuItem value='united_kingdom'>United Kingdom</MenuItem>
-                                <MenuItem value='china'>China</MenuItem>
-                                <MenuItem value='japan'>Japan</MenuItem>
-                            </Select>
-                        </FormControl>
-                        <small className='ml-2 text-danger' >{profileError.country ? profileError.country : ''}</small>
+                            />
+                            <small className='ml-2 text-danger' >{profileError.city ? profileError.city : ''}</small>
+                        </div>
                     </div>
-                    <div className='col-sm col-md-6' >
-                        <FormControl variant="outlined" className={classes.selectField}>
-                            <InputLabel className={classes.selectLabel} id="role">
-                                Role
-                             </InputLabel>
-                            <Select
-                                id="role"
-                                name='role'
-                                value={profileData.role}
-                                onChange={e => setProfileData({ ...profileData, [e.target.name]: e.target.value })}
-                            >
-                                <MenuItem value='softwareEngineer'>Software Engineer</MenuItem>
-                                <MenuItem value='investor'>Invester</MenuItem>
-                            </Select>
-                        </FormControl>
-                        <small className='ml-2 text-danger' >{profileError.role ? profileError.role : ''}</small>
+                    <div className='row' >
+                        <div className='col-sm col-md-6' >
+                            <FormControl variant="outlined" className={classes.selectField}>
+                                <InputLabel className={classes.selectLabel} id="country">
+                                    Country
+                                 </InputLabel>
+                                <Select
+                                    id="country"
+                                    name='country'
+                                    value={profileData.country}
+                                    onChange={e => setProfileData({ ...profileData, [e.target.name]: e.target.value })}
+                                >
+                                    <MenuItem value='pakistan'>Pakistan</MenuItem>
+                                    <MenuItem value='india'>India</MenuItem>
+                                    <MenuItem value='austrilia'>Austrilia</MenuItem>
+                                    <MenuItem value='united_state'>United State</MenuItem>
+                                    <MenuItem value='united_kingdom'>United Kingdom</MenuItem>
+                                    <MenuItem value='china'>China</MenuItem>
+                                    <MenuItem value='japan'>Japan</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <small className='ml-2 text-danger' >{profileError.country ? profileError.country : ''}</small>
+                        </div>
+                        <div className='col-sm col-md-6' >
+                            <FormControl variant="outlined" className={classes.selectField}>
+                                <InputLabel className={classes.selectLabel} id="role">
+                                    Role
+                                 </InputLabel>
+                                <Select
+                                    id="role"
+                                    name='role'
+                                    value={profileData.role}
+                                    onChange={e => setProfileData({ ...profileData, [e.target.name]: e.target.value })}
+                                >
+                                    <MenuItem value='softwareEngineer'>Software Engineer</MenuItem>
+                                    <MenuItem value='investor'>Invester</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <small className='ml-2 text-danger' >{profileError.role ? profileError.role : ''}</small>
 
+                        </div>
                     </div>
-                </div>
-                <div className='row' >
-                    <div className='col-sm col-md-6' >
-                        <FormControl variant="outlined" className={classes.selectField}>
-                            <InputLabel className={classes.selectLabel} id="exp">
-                                Working Experience
-                             </InputLabel>
-                            <Select
-                                id="exp"
-                                name='experience'
-                                value={profileData.experience}
+                    <div className='row' >
+                        <div className='col-sm col-md-6' >
+                            <FormControl variant="outlined" className={classes.selectField}>
+                                <InputLabel className={classes.selectLabel} id="exp">
+                                    Working Experience
+                                 </InputLabel>
+                                <Select
+                                    id="exp"
+                                    name='experience'
+                                    value={profileData.experience}
+                                    onChange={e => setProfileData({ ...profileData, [e.target.name]: e.target.value })}
+                                >
+                                    <MenuItem value={'2'}>Two</MenuItem>
+                                    <MenuItem value={'4'}>Four</MenuItem>
+                                    <MenuItem value={'6'}>Six</MenuItem>
+                                    <MenuItem value={'8'}>Eight</MenuItem>
+                                    <MenuItem value={'10'}>Ten</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <small className='ml-2 text-danger' >{profileError.experience ? profileError.experience : ''}</small>
+                        </div>
+                        <div className='col-sm col-md-6' >
+                            <FormControl variant="outlined" className={classes.selectField}>
+                                <InputLabel className={classes.selectLabel} id="gender">
+                                    Gender
+                                 </InputLabel>
+                                <Select
+                                    id="gender"
+                                    name='gender'
+                                    value={profileData.gender}
+                                    onChange={e => setProfileData({ ...profileData, [e.target.name]: e.target.value })}
+                                >
+                                    <MenuItem value='male'>Male</MenuItem>
+                                    <MenuItem value='female'>Female</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <small className='ml-2 text-danger' >{profileError.gender ? profileError.gender : ''}</small>
+                        </div>
+                    </div>
+                    <div className='row' >
+                        <div className='col-sm col-md-6' >
+                            <TextField
+                                name='twitter'
+                                type='text'
+                                label="Twitter Account"
+                                className={classes.textField}
+                                margin="normal"
+                                variant="outlined"
+                                value={profileData.twitter}
                                 onChange={e => setProfileData({ ...profileData, [e.target.name]: e.target.value })}
-                            >
-                                <MenuItem value={'2'}>Two</MenuItem>
-                                <MenuItem value={'4'}>Four</MenuItem>
-                                <MenuItem value={'6'}>Six</MenuItem>
-                                <MenuItem value={'8'}>Eight</MenuItem>
-                                <MenuItem value={'10'}>Ten</MenuItem>
-                            </Select>
-                        </FormControl>
-                        <small className='ml-2 text-danger' >{profileError.experience ? profileError.experience : ''}</small>
-                    </div>
-                    <div className='col-sm col-md-6' >
-                        <FormControl variant="outlined" className={classes.selectField}>
-                            <InputLabel className={classes.selectLabel} id="gender">
-                                Gender
-                             </InputLabel>
-                            <Select
-                                id="gender"
-                                name='gender'
-                                value={profileData.gender}
+                            />
+                            <small className='ml-2 text-danger' >{profileError.twitter ? profileError.twitter : ''}</small>
+                        </div>
+                        <div className='col-sm col-md-6' >
+                            <TextField
+                                name='linkedin'
+                                type='text'
+                                label="LinkedIn Account"
+                                className={classes.textField}
+                                margin="normal"
+                                variant="outlined"
+                                value={profileData.linkedin}
                                 onChange={e => setProfileData({ ...profileData, [e.target.name]: e.target.value })}
-                            >
-                                <MenuItem value='male'>Male</MenuItem>
-                                <MenuItem value='female'>Female</MenuItem>
-                            </Select>
-                        </FormControl>
-                        <small className='ml-2 text-danger' >{profileError.gender ? profileError.gender : ''}</small>
+                            />
+                            <small className='ml-2 text-danger' >{profileError.linkedin ? profileError.linkedin : ''}</small>
+                        </div>
                     </div>
-                </div>
-                <div className='row' >
-                    <div className='col-sm col-md-6' >
-                        <TextField
-                            name='twitter'
-                            type='text'
-                            label="Twitter Account"
-                            className={classes.textField}
-                            margin="normal"
-                            variant="outlined"
-                            value={profileData.twitter}
-                            onChange={e => setProfileData({ ...profileData, [e.target.name]: e.target.value })}
-                        />
-                    <small className='ml-2 text-danger' >{profileError.twitter ? profileError.twitter : ''}</small>
+                    <div className='row' >
+                        <div className='col-sm-12' >
+                            {profileData.role === 'softwareEngineer' ? (
+                                <ChipInput
+                                    variant='outlined'
+                                    className={classes.textField}
+                                    label="Skills"
+                                    margin="normal"
+                                    value={profileData.skills}
+                                    onChange={(skill) => setProfileData({ ...profileData, skills: skill })}
+                                />
+                            ) : ''}
+                            <small className='ml-2 text-danger' >{profileError.skills ? profileError.skills : ''}</small>
+                        </div>
                     </div>
-                    <div className='col-sm col-md-6' >
-                        <TextField
-                            name='linkedin'
-                            type='text'
-                            label="LinkedIn Account"
-                            className={classes.textField}
-                            margin="normal"
-                            variant="outlined"
-                            value={profileData.linkedin}
-                            onChange={e => setProfileData({ ...profileData, [e.target.name]: e.target.value })}
-                        />
-                        <small className='ml-2 text-danger' >{profileError.linkedin ? profileError.linkedin : ''}</small>
+                    <div className='row' >
+                        <div className='col-sm-12' >
+                            <TextField
+                                label="About Yourself"
+                                multiline
+                                rows="5"
+                                className={classes.textField}
+                                margin="normal"
+                                variant="outlined"
+                                name='about'
+                                value={profileData.about}
+                                onChange={e => setProfileData({ ...profileData, [e.target.name]: e.target.value })}
+                            />
+                            <small className='ml-2 text-danger' >{profileError.about ? profileError.about : ''}</small>
+                        </div>
                     </div>
-                </div>
-                <div className='row' >
-                    <div className='col-sm-12' >
-                        {profileData.role === 'softwareEngineer' ?(
-                        <ChipInput
-                        variant='outlined'
-                        className={classes.textField}
-                        label="Skills"
-                        margin="normal"
-                        value={profileData.skills}
-                        onChange={(skill)=>setProfileData({...profileData,skills:skill})}
-                    />
-                        ):''}
-                        <small className='ml-2 text-danger' >{profileError.skills ? profileError.skills : ''}</small>
+                    <div className='row mt-3' >
+                        <div className='col-sm col-md-6' >
+                            <DropzoneArea
+                                dropzoneText={'Upload Profile Picture'}
+                                acceptedFiles={['image/*']}
+                                filesLimit={1}
+                                value={profileData.profileImage}
+                                onChange={(file) => setProfileData({ ...profileData, profileImage: file })}
+                            />
+                            <small className='ml-2 text-danger' >{profileError.profileImage ? profileError.profileImage : ''}</small>
+                        </div>
+                        <div className='col-sm col-md-6' >
+                            <DropzoneArea
+                                dropzoneText={'Upload Cover Image'}
+                                acceptedFiles={['image/*']}
+                                filesLimit={1}
+                                value={profileData.coverImage}
+                                onChange={(file) => setProfileData({ ...profileData, coverImage: file })}
+                            />
+                            <small className='ml-2 text-danger' >{profileError.coverImage ? profileError.coverImage : ''}</small>
+                        </div>
                     </div>
-                </div>
-                <div className='row' >
-                    <div className='col-sm-12' >
-                        <TextField
-                            label="About Yourself"
-                            multiline
-                            rows="5"
-                            className={classes.textField}
-                            margin="normal"
-                            variant="outlined"
-                            name='about'
-                            value={profileData.about}
-                            onChange={e => setProfileData({ ...profileData, [e.target.name]: e.target.value })}
-                        />
-                         <small className='ml-2 text-danger' >{profileError.about ? profileError.about : ''}</small>
-                    </div>
-                </div>
-                <div className='row mt-3' >
-                    <div className='col-sm col-md-6' >
-                        <DropzoneArea
-                            dropzoneText={'Upload Profile Picture'}
-                            acceptedFiles={['image/*']}
-                            filesLimit={1}
-                            value={profileData.profileImage}
-                            onChange={(file) => setProfileData({...profileData,profileImage:file})}
-                        />
-                        <small className='ml-2 text-danger' >{profileError.profileImage ? profileError.profileImage : ''}</small>
-                    </div>
-                    <div className='col-sm col-md-6' >
-                        <DropzoneArea
-                            dropzoneText={'Upload Cover Image'}
-                            acceptedFiles={['image/*']}
-                            filesLimit={1}
-                            value={profileData.coverImage}
-                            onChange={(file) => setProfileData({...profileData,coverImage:file})}
-                        />
-                <small className='ml-2 text-danger' >{profileError.coverImage ? profileError.coverImage : ''}</small>
-                    </div>
-                </div>
-                <div className='row' >
-                    <div className='col-sm col-md-12' >
-                        <Button onClick={()=> updateProfile()} variant="outlined" color="primary" className={classes.button}>
-                            Update Profile
-                        </Button>
+                    <div className='row' >
+                        <div className='col-sm col-md-12' >
+                            <Button onClick={() => updateProfile()} variant="outlined" color="primary" className={classes.button}>
+                                Update Profile
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    );
+        );
+    }
 }
 const mapStateToProps = (state) => ({
     auth: state.authReducer,
     profileData: state.profileReducer
 })
 
-export default connect(mapStateToProps,{setProfile})(withRouter(ProfileEdit));
+export default connect(mapStateToProps, { setProfile })(withRouter(ProfileEdit));

@@ -23,6 +23,7 @@ export const setProfile = (data, history) => async dispatch => {
         let profileData = {...data, profileImage:profileUrl, coverImage:coverUrl, iscompleted:true}
         let userRef = db.collection('users').doc(profileData.user)
         let profileAfterUpdate = await userRef.update(profileData)
+        console.log('action se profile' , profileAfterUpdate)
         dispatch({type:UPDATE_PROFILE_COMPLETED})
         history.push(`/profile`)
     }catch(e){
