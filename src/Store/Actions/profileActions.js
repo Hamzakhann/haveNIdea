@@ -5,7 +5,8 @@ import {
     GET_PROFILE_ERROR,
     UPDATE_PROFILE_LOADING,
     UPDATE_PROFILE_COMPLETED,
-    UPDATE_PROFILE_ERROR
+    UPDATE_PROFILE_ERROR,
+    REMOVE_PROFILE_ERROR
 } from '../Constant/constant';
 import {db,storage} from '../../Config/firebaseConfig';
 
@@ -51,4 +52,6 @@ export const getProfile = (userId) => async dispatch =>{
     }
 }
 
-
+export const removeProfileError = () => dispatch =>{
+    dispatch({type:REMOVE_PROFILE_ERROR})
+}

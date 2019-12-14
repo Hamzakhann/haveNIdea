@@ -4,7 +4,7 @@ import { logoutUser } from '../../Store/Actions/authActions';
 import {getProfile} from '../../Store/Actions/profileActions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import Spinner from '../../Components/Spinner/Spinner';
+import Skeleton from '@material-ui/lab/Skeleton';
 import ProfileComplete from '../../Components/ProfileComplete/ProfileComplete';
 import ProfileEdit from '../../Components/ProfileEdit/ProfileEdit';
 class Profile extends Component{
@@ -21,7 +21,34 @@ class Profile extends Component{
         const {profileData} = this.props
         let profileContent;
         if (profileData.isLoading) {
-            profileContent  =  <Spinner />
+            profileContent  =  (
+                <div style={{ maxWidth: "90%", margin: "0 auto" }} >
+                    <br/>
+                    <br/>
+                    <br/>
+                <Skeleton variant="rect" />
+                <Skeleton variant="rect" />
+                <Skeleton variant="rect" />
+                <Skeleton variant="rect" />
+                <Skeleton variant="rect" />
+                    <br/>
+                    <br/>
+                    <br/>
+                <Skeleton variant="rect" />
+                <Skeleton variant="rect" />
+                <Skeleton variant="rect" />
+                <Skeleton variant="rect" />
+                <Skeleton variant="rect" />
+                    <br/>
+                    <br/>
+                    <br/>
+                <Skeleton variant="rect" />
+                <Skeleton variant="rect" />
+                <Skeleton variant="rect" />
+                <Skeleton variant="rect" />
+                <Skeleton variant="rect" />
+            </div>
+            )
         } else if (!profileData.profile.iscompleted && !profileData.isLoading) { 
             profileContent = <div
             style={{

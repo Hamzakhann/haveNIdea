@@ -7,7 +7,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import { DropzoneArea } from 'material-ui-dropzone';
 import ChipInput from 'material-ui-chip-input'
 import profileValidator from '../../Validation/profileValidation';
-import { setProfile } from '../../Store/Actions/profileActions';
+import { setProfile , removeProfileError } from '../../Store/Actions/profileActions';
 import './p-edit.css'
 
 const useStyles = makeStyles(theme => ({
@@ -171,9 +171,10 @@ const ProfileEdit = (props) => {
     } else {
         return (
             <div className='container'>
-                <div class="alert alert-danger error-edit" role="alert">
-                    A simple danger alert—check it out!
-                    </div>
+                {props.profileData.profileError ? 
+            <div style={{ position: 'fixed', top:'10px', left:'10px' }} class="alert alert-danger" role="alert">
+               {props.profileData.profileError} <Button onClick={() => props.removeProfileError()} className='text-danger font-weight-bold' ><i class="fas fa-times"></i></Button> 
+            </div>: ""}
                 <div className='d-flex align-items-center justify-content-center'>
                     <div className='alert-danger p-2 rounded'>
                         <h6>Complete Your Profile to access all features of HaveNIdea</h6>
@@ -397,7 +398,7 @@ const ProfileEdit = (props) => {
                     </div>
                     <div className='row' >
                         <div className='col-sm col-md-12' >
-                            <Button onClick={() => updateProfile()} variant="outlined" color="primary" className={classes.button}>
+                            <Button disabled={props.profileData.profileError} onClick={() => updateProfile()} variant="outlined" color="primary" className={classes.button}>
                                 Update Profile
                             </Button>
                         </div>
@@ -412,4 +413,4 @@ const mapStateToProps = (state) => ({
     profileData: state.profileReducer
 })
 
-export default connect(mapStateToProps, { setProfile })(withRouter(ProfileEdit));
+export default connect(mapStateToProps, { setProfile , removeProfileError })(withRouter(ProfileEdit));
